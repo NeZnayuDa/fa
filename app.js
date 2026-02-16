@@ -229,6 +229,35 @@ const products = [
 const filmContainer = document.querySelector('.filim');
 const searchInput = document.getElementById('searchInput');
 
+function showModal(product) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <img src="${product.image}" alt="${product.title}" style="width: 300px; height: auto;" />
+            <h2>${product.title}</h2>
+            <p>Price: ${product.price}$</p>
+            <p>Brand: ${product.brand}</p>
+            <p>Category: ${product.category}</p>
+            <p>Rating: ${product.rating}</p>
+            <p>Stock: ${product.stock}</p>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const closeButton = modal.querySelector('.close-button');
+    closeButton.addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
 function renderProducts(list) {
     filmContainer.innerHTML = '';
     if (!list || list.length === 0) {
@@ -249,6 +278,9 @@ function renderProducts(list) {
                 <p>Category: ${film.category}</p>
             </div>
         `;
+
+        filmElement.addEventListener('click', () => showModal(film));
+
         filmContainer.appendChild(filmElement);
     });
 }
